@@ -1,5 +1,6 @@
 package com.lukasdrescher.aftermine
 
+import com.lukasdrescher.aftermine.registry.ItemRegistry
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory
 
@@ -11,5 +12,7 @@ object AfterMine : ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		logger.info("Hello Fabric world!")
+
+		ItemRegistry.initialize()
 	}
 }
