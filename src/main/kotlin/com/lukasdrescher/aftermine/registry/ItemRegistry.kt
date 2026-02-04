@@ -9,15 +9,18 @@ import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 
 object ItemRegistry {
-    fun registerItem(name: String, itemSettings: Item.Settings): Item {
+    fun <GenericItem : Item>registerItem(name: String, itemSettings: Item.Settings, itemFactory: (Item.Settings) -> GenericItem): GenericItem {
         val id = Identifier.of(MOD_ID, name)
         val key: RegistryKey<Item> = RegistryKey.of(RegistryKeys.ITEM, id)
         val settings: Item.Settings = itemSettings.registryKey(key)
-        return Registry.register(Registries.ITEM, key, Item(settings))
+
+        val item: GenericItem = itemFactory(settings)
+
+        return Registry.register(Registries.ITEM, key, item)
     }
 
     fun initialize() {
         // Here can Items be registered
-        registerItem("hand_grenade", Item.Settings().maxCount(3))
+        registerItem<Item>("hand_grenade", Item.Settings().maxCount(3), ::Item)
     }
 }
